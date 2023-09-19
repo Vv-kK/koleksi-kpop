@@ -1,6 +1,7 @@
 # [Melody Mementos](https://melody-mementos.adaptable.app/)
 
-
+<details>
+<summary> Tugas 2 </summary>
 ### 1. Cara meimplementasi checklist pada tugas
 Saya membuat proyek Django baru dengan pertama membuat folder baru di lokal dan github dengan nama yang sama. Saya menghubungkan keduanya dengan perintah git add remote origin. Lalu, saya membuat virtual environment untuk projek baru ini dan mendownload django serta requirements lainnya. Lalu, saya membuat proyek django baru dengan perintah "django-admin startproject shopping_list ." 
 Saya mengganti allowed hosts di settings.py agar dapat diakses oleh semua host dan menambahkan dokumen .gitignore dengan isi seperti di tutorial 0. 
@@ -28,3 +29,75 @@ venv digunakan untuk memisahkan dependencies antara proyek karena tiap proyek me
 Perbedaan: 
 - Ketika mau melakukan modifikasi pada data, di MVC yang melakukannya adalah controller, di MVT dilakukan dengan cara view mengirimkan perintah ke model dan dilaksanakan oleh model, di MVVM dilakukan dengan cara viewmodel mengirimkan perintah ke model dan modifikasi akan dilakukan oleh model. 
 - Ketika ingin mengubah tampilan, di MVC dilakukan dengan cara controller mengirimkan perintah ke view dan view yang melakukan perubahan, di MVT hal ini dilakukan oleh template, dan di MVVM hal ini dilakukan oleh view setelah mendapat perintah dari viewmodel.
+</details>
+
+<details> 
+<summary>Tugas 3</summary>
+
+### 1. Apa perbedaan antara form POST dan form GET dalam Django?
+Form POST dan GET digunakan untuk mengirim data dari form ke server. 
+Saat mengirimkan data dengan POST, nilai variabel tidak ditampilkan di URL karena request dikirimkan sebagai bagian dari HTTP Request Body. Sedangkan, GET menampilkan nilai variabel di URL. Maka dari itu, POST dianggap lebih aman dibandingkan GET terutama jika data yang ditransmisi adalah data sensitif.
+Karena nilai variabel dimasukkan pada method GET, maka data yang dapat ditransmisi juga terbatas, sehingga POST lebih cocok digunakan jika mengirim data yang berukuran besar.
+
+### 2. Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
+XML dan JSON banyak digunakan untuk mengirimkan data yang terstruktur, sedangkan HTML lebih digunakan untuk membuat tampilan pada web aplikasi. 
+Pengiriman data menggunakan XML dan JSON memiliki struktur yang berbeda. XML mengirim data dengan struktur tree dimana tiap data akan memiliki tag dan closing tag. Dokumen XML juga harus memiliki root element yang merupakan parent dari tag lainnya. Di sisi lain, dokumen JSON mengirim data dalam bentuk yang mirip dengan object pada JavaScript, yaitu berbentuk seperti dictionary pada python. Dokumen JSON terdiri dari key-value pair yang sepenuhnya text, sehingga mudah untuk dibaca manusia.
+Lalu, HTML digunakan untuk menampilkan data yang diterima itu agar lebih nyaman dilihat di web aplikasi yang dibuat, misalnya dengan bentuk tabel. Namun, HTML juga bisa digunakan untuk mengirim data berbentuk formulir atau dari parameter URL.
+
+### 3. Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
+Hal ini karena penyajian data dengan JSON lebih mudah dibaca untuk manusia dan bentuknya lebih sederhana daripada XML, tetapi tetap mampu untuk merepresentasikan struktur data yang kompleks. Selain itu, JSON memiliki sintaks yang lebih ringan yang berarti data yang sama memiliki ukuran file lebih kecil, sehingga pertukaran data akan lebih efisien. JSON juga dapat digunakan dengan berbagai bahasa pemrograman dan syntax-nya mirip dengan JavaScript. 
+
+### 4. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step
+Pertama, Saya membuat forms.py yang berguna sebagai struktur input form yang ingin dibuat. File tersebut kemudian diisi dengan sebuah class yang bernama ProductForm yang mengambil bentuk dasar dari ModelForm. Kemudian, saya menyatakan objek yang ingin dibuat adalah 'Item' dan atribut apa saja yang perlu diinput pengguna. 
+Setelahnya, saya menambahkan fungsi baru pada views.py yang membuat instansiasi dari class ProductForm. Fungsi juga mengecek apakah input yang dimasukkan valid dan menyimpannya jika valid. Melalui fungsi ini juga, tampilan untuk input form di render dengan memanggil fungsi yang merender html create_product.
+Selanjutnya, saya membuat file html dengan nama create_product.html dalam folder templates di aplikasi main. Lalu, saya menulis terlebih dahulu keterangan bahwa file ini extends dari base.html dan menyatakan bagian block content. Kemudian, saya membuat form dengan method POST karena form ini bertujuan menambahkan item baru ke database. Lalu, struktur form yang ada di forms.py diambil dengan perantara views.py untuk ditampilkan sebagai tabel. Juga ada tombol untuk mengirimkan data yang telah dimasukkan.
+Saya juga menambahkan button yang mengarah ke halaman input form ketika ditekan. Penambahan button dilakukan melalui main.html dan button disisipkan hyperlink ke halaman create_product.
+Terakhir untuk checklist pertama adalah membuat routing di urls.py pada aplikasi main agar create_product dapat diakses. Routing dilakukan dengan import fungsi baru (create_product) tadi dan menambahkannya juga dalam urlpatterns.
+<br>
+Pada checklist selanjutnya, saya pertama menambahkan code pada fungsi show_main untuk menampilkan data dalam format HTML. Saya menambahkan variabel items yang berisi semua datanya, dimana akan digunakan untuk menampilkan data di HTML. Kemudian di main.html saya menambahkan kode untuk menampilkan data dalam bentuk tabel seperti berikut.
+
+```
+<table>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Artist</th>
+            <th>Description</th>
+        </tr>
+
+        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+
+        {% for item in items %}
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.artist}}</td>
+                <td>{{item.description}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+```
+
+Untuk data dengan format XML dan JSON, masing-masing dibuat fungsi dan menyimpan semua objek dari Item dalam sebuah variabel. Lalu, data itu di serialize masing-masing sebagai XML dan JSON sesuai fungsinya. Hasil serialisasi itu di-return sebagai HTTP Response.
+Untuk menampilkan data dengan format XML dan JSON berdasarkan ID hanya berbeda saat mengambil objek dari Item. Disini diambil objek dari id yang diinginkan saja dan tidak semua objek. Data diserialisasi dan hasilnya di-return sebagai HTTP Response.
+<br>
+Saya melakukan routing dengan mengimport semua nama fungsi baru di views.py pada urls.py di aplikasi main. Selanjutnya, tambahkan path untuk setiap fungsi di urlpatterns. 
+<br>
+Terakhir, untuk menjawab pertanyaan di README saya membuka referensi materi dari tutorial 2, slides kuliah, dan membaca artikel di internet.
+
+### 5. Screenshot dari hasil akses URL pada Postman
+1. HTML
+![](/image/show_main_html.jpg)
+
+2. XML
+![](/image/show_xml.jpg)
+
+3. JSON
+![](/image/show_json.jpg)
+
+4. XML by ID
+![](/image/show_xml_by_id.jpg)
+
+5. JSON by ID
+![](/image/show_json_by_id.jpg)
+</details>
