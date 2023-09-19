@@ -88,6 +88,9 @@ Terakhir, untuk menjawab pertanyaan di README saya membuka referensi materi dari
 ### 5. Screenshot dari hasil akses URL pada Postman
 1. HTML
 ![](/image/show_main_html.jpg)
+![](/image/show_main_html_2.jpg)
+![](/image/show_main_html_3.jpg)
+![](/image/show_main_html_4.jpg)
 
 2. XML
 ![](/image/show_xml.jpg)
