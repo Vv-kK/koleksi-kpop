@@ -2,6 +2,7 @@
 
 <details>
 <summary> Tugas 2 </summary>
+
 ### 1. Cara meimplementasi checklist pada tugas
 Saya membuat proyek Django baru dengan pertama membuat folder baru di lokal dan github dengan nama yang sama. Saya menghubungkan keduanya dengan perintah git add remote origin. Lalu, saya membuat virtual environment untuk projek baru ini dan mendownload django serta requirements lainnya. Lalu, saya membuat proyek django baru dengan perintah "django-admin startproject shopping_list ." 
 Saya mengganti allowed hosts di settings.py agar dapat diakses oleh semua host dan menambahkan dokumen .gitignore dengan isi seperti di tutorial 0. 
