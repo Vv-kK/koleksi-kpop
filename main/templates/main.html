@@ -15,6 +15,9 @@
         <tr>
             <th>Name</th>
             <th>Amount</th>
+            <th></th>
+            <th></th>
+            <th></th>
             <th>Artist</th>
             <th>Description</th>
         </tr>
@@ -25,6 +28,9 @@
             <tr>
                 <td>{{item.name}}</td>
                 <td>{{item.amount}}</td>
+                <td><a href="increase/{{item.pk}}/"><button>+</button></a></td>
+                <td><a href="decrease/{{item.pk}}/"><button>-</button></a></td>
+                <td><a href="remove_all/{{item.pk}}/"><button>Delete</button></a></td>
                 <td>{{item.artist}}</td>
                 <td>{{item.description}}</td>
             </tr>

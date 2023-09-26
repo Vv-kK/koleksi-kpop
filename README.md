@@ -105,3 +105,124 @@ Terakhir, untuk menjawab pertanyaan di README saya membuka referensi materi dari
 5. JSON by ID
 ![](/image/show_json_by_id.jpg)
 </details>
+
+<details>
+<summary>Tugas 4</summary>
+
+### 1. Apa itu Django UserCreationForm, dan jelaskan apa kelebihan dan kekurangannya?
+UserCreationForm merupakan library bawaan dari Django yang berfungsi untuk membuat formulir registrasi pengguna baru, sehingga programmer tidak perlu membuat kode dari awal. Kelebihannya adalah kemudahan yang diberikan pada programmer karena dapat memvalidasi input username dan password sesuai aturan dasar, misalnya panjang password harus lebih dari 8 karakter. Di sisi lain, kekurangannya adalah kurangnya kustomisasi yang dapat dilakukan, misalnya tidak bisa menambahkan field jenis kelamin dan tidak bisa menambahkan captcha. UserCreationForm juga perlu kustomisasi lebih untuk menambahkan aturan pembuatan password yang lebih kuat, seperti wajib mengandung huruf kapital.
+
+### 2. Apa perbedaan antara autentikasi dan otorisasi dalam konteks Django, dan mengapa keduanya penting?
+Autentikasi adalah proses memverifikasi pengguna yang sedang memanfaatkan apliaksi kita. Contohnya adalah proses login. Sedangkan otorisasi adalah proses pengecekan apakah pengguna boleh mengakses suatu hal. Keduanya penting karena autentikasi dan otorisasi memiliki peran yang berbeda dimana keduanya saling melengkapi. Autentikasi menghambat hacker untuk berpura-pura menjadi seorang pengguna dan otorisasi menghambat orang-orang tidak berkepentingan untuk melakukan suatu aksi tertentu. 
+
+### 3. Apa itu cookies dalam konteks aplikasi web, dan bagaimana Django menggunakan cookies untuk mengelola data sesi pengguna?
+Cookies adalah penyimpanan data dengan ukuran maksimal 4 KB yang akan dihapus/kadaluarsa sesuai waktu yang ditentukan programmer. Sesi pengguna itu sendiri hanya bertahan dalam 1 tab dan sesi berakhir saat sesi ditutup, berarti pengguna harus login kembali. Sesi antara satu pengguna dengan yang lainnya dibedakan dengan session ID. Nilai session ID ini disimpan sebagai cookie, sehingga dapat diakses oleh semua window. Hal ini menghasilkan holding state, sehingga pengguna tidak perlu berulang kali melakukan login.
+
+### 4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai?
+Cookies itu sendiri tidak dapat digunakan untuk mentransfer virus. Namun, perlu diwaspadai jika cookies berisi informasi sensitif yang tidak di enkripsi karena dapat dicuri/dimodifikasi informasinya. 
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+Pertama, saya mengimport semua fungsi yang dibutuhkan untuk membuat register, login, dan logout. Lalu, saya membuat fungsi baru di views.py bernama register yang membuat suatu form default dengan USerCreationForm bawaan Django. Di dalam fungsi itu dibuat kondisi ketika pengguna request methodnya adalah POST, maka akan dibuat UserCreationForm sesuai input yang dimasukan pengguna pada request.POST. Jika formnya berisi data yang valid, maka form akan disimpan dengan form.save(), menampilkan pesan sukses dengan message.success(), dan pengguna diteruskan ke halaman login dengan return. Jika tidak valid, pengguna akan tetap di halaman register.html. 
+Selanjutnya, saya membuat file register.html di dalam folder templates dan mengisinya dengan code sebagai berikut.
+```html
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Register</title>
+{% endblock meta %}
+
+{% block content %}  
+
+<div class = "login">
+    
+    <h1>Register</h1>  
+
+        <form method="POST" >  
+            {% csrf_token %}  
+            <table>  
+                {{ form.as_table }}  
+                <tr>  
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Daftar"/></td>  
+                </tr>  
+            </table>  
+        </form>
+
+    {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+                {% endfor %}  
+        </ul>   
+    {% endif %}
+
+</div>  
+
+{% endblock content %}
+```
+
+Selanjutnya, saya membuat fungsi login_user di views.py. Saya membuat kasus ketika request methodnya adalah post dimana program akan mengambil input username dan password yang dimasukkan lalu dilakukan autentikasi. Jika autentikasi berhasil, maka dilakukan login dengan function built-in dan mengarahkan pengguna ke halaman main. Ketika request methodnya bukan POST, maka pengguna tetap di halaman login. Untuk tampilan login, saya membuat login.html dengan isi code sebagai berikut.
+```html
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+
+<div class = "login">
+
+    <h1>Login</h1>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Username: </td>
+                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+            </tr>
+                    
+            <tr>
+                <td>Password: </td>
+                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input class="btn login_btn" type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}     
+        
+    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+
+</div>
+
+{% endblock content %}
+```
+
+Selanjutnya, untuk logout saya membuat fungsi yang memanfaatkan function built-in logout dan mengembalikan pengguna ke halaman login. Lalu, pengguna dapat melakukan logout dengan button logout yang saya tambahkan pada halaman utama dengan kode tambahan di main.html (setelah button add new product) sebagai berikut.
+```html
+<a href="{% url 'main:logout' %}">
+    <button>
+        Logout
+    </button>
+</a>
+```
+Setelah itu saya melakukan routing di urls.py dengan mengimport semua fungsi yang baru dibuat dan menambahkan path nya ke urlpatterns. Saya juga menambahkan restriksi untuk halaman main yang hanya dapat diakses ketika sudah login agar pengalaman pengguna semakin lancar. Saya membuat ini dengan decorator login_required yang ada dari Django.
+
+Checklist kedua saya lakukan dengan menjalankan server dan mengakses localhost. Saya memanfaatkan halaman register yang telah saya buat untuk membuat 2 akun dan mengisi dengan dummy data. Kemudian, saya melakukan checklist ketiga, yaitu integrasi Item dengan User. Langkah pertama yang saya lakukan adalah mengimport User dan menambahkan atribut user di model Item. Lalu, saya melakukan migrations. Langkah selanjutnya, saya mengubah function create_product di views.py. Function perlu diganti supaya form tidak langsung disimpan ke database. Saya menambahkan informasi user di formnya sesuai dengan user yang sekarang login dan setelahnya baru disimpan ke database. Lalu, item yang ditampilkan juga di-filter agar yang ditampilkan hanya item dari user yang sedang login di sesi itu. 
+
+Checklist keempat saya lakukan dengan menyimpan jam login dengan cookie pada function login menambahkan code `response.set_cookie('last_login', str(datetime.datetime.now()))` Saya menambahkan informasi ini dalam dictionary context function show_main yang di pass ke main.html agar bisa di render informasinya. Kemudian, saya juga merubah value dari nama dalam dictionary context function show_main agar mengirimkan username dari user yang sekarang sedang login.
+
+Terakhir, saya menjawab pertanyaan dengan membaca kembali tutorial, slides, dan mencari informasi di internet.
+</details>
