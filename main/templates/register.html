@@ -2,33 +2,149 @@
 
 {% block meta %}
     <title>Register</title>
+<style>
+    .card-6{
+        background: 0 0;
+    }
+
+    .card-6 .card-body{
+        border: 1px solid #e5e5e5;
+        border-bottom: none;
+        padding: 30px 0;
+        padding-bottom: 0;
+    }
+
+    .card-heading{
+        background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity))!important;
+    }
+
+    .bg-dark {
+        --bs-bg-opacity: 1;
+        background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity))!important;
+    }
+
+    .card {
+        border-color: black;
+        box-sizing: inherit;
+        border: none;
+    }
+
+    div {
+        display: block;
+    }
+
+    .wrapper--w900 {
+        box-sizing: inherit;
+        max-width: 900px;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto
+    }
+
+    .page-wrapper {
+        min-height: 100vh;
+        padding-top: 100px;
+        padding-bottom: 50px;
+    }
+
+    .title {
+        font-size: 36px;
+        font-weight: 700;
+        text-align: left;
+        color: #fff;
+        margin-bottom: 24px;
+    }
+
+    .input-group {
+        padding: 24px 55px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .input-group-text{
+        width: 10%;
+    }
+
+    .card-footer-register{
+        border: 1px solid #e5e5e5;
+        border-top: none;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        padding: 50px;
+    }
+
+    .btn-register {
+        background: #2c6ed5;
+        border-radius: 5px;
+        display: inline-block;
+        line-height: 50px;
+        padding: 0 30px;
+        outline: none;
+        border: none;
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+</style>
 {% endblock meta %}
 
 {% block content %}  
 
-<div class = "login">
-    
-    <h1>Register</h1>  
+<div class = "page-wrapper bg-dark">
+    <div class="wrapper wrapper--w900">
+        <div class="card card-6">
+            <div class="card-heading">
+                <h2 class="title">Register</h1>
+            </div>
 
-        <form method="POST" >  
-            {% csrf_token %}  
-            <table>  
-                {{ form.as_table }}  
-                <tr>  
-                    <td></td>
-                    <td><input type="submit" name="submit" value="Daftar"/></td>  
-                </tr>  
-            </table>  
-        </form>
+            
+                
+            <form method="POST" >
+                <div class="card-body">
+                    
+                    {% csrf_token %} 
+                    
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text" id="addon-wrapping">@</span>
+                        {{ form.username }}
+                    </div>
+                    <script>
+                        document.getElementById("{{ form.username.id_for_label }}").placeholder = "Username";
+                    </script>
 
-    {% if messages %}  
-        <ul>   
-            {% for message in messages %}  
-                <li>{{ message }}</li>  
-                {% endfor %}  
-        </ul>   
-    {% endif %}
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text" id="addon-wrapping">🔑</span>
+                        {{ form.password1}}
+                    </div>
+                    <script>
+                        document.getElementById("{{ form.password1.id_for_label }}").placeholder = "Password";
+                    </script>
 
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text" id="addon-wrapping">🔑</span>
+                        {{ form.password2}}
+                    </div>
+                    <script>
+                        document.getElementById("{{ form.password2.id_for_label }}").placeholder = "Confirm Password";
+                    </script>
+                </div>
+                
+                <div class="card-footer-register" padding="50px 55px">
+                    <input class="btn-register" type="submit" name="submit" value="Register"></input>
+                    </input>
+                </div>
+            </form>
+                
+                {% if messages %}  
+                    <ul>   
+                        {% for message in messages %}  
+                            <li>{{ message }}</li>  
+                            {% endfor %}  
+                    </ul>   
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>  
 
 {% endblock content %}

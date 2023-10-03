@@ -4,16 +4,16 @@
 <summary> Tugas 2 </summary>
 
 ### 1. Cara meimplementasi checklist pada tugas
-Saya membuat proyek Django baru dengan pertama membuat folder baru di lokal dan github dengan nama yang sama. Saya menghubungkan keduanya dengan perintah git add remote origin. Lalu, saya membuat virtual environment untuk projek baru ini dan mendownload django serta requirements lainnya. Lalu, saya membuat proyek django baru dengan perintah "django-admin startproject shopping_list ." 
+Saya membuat proyek Django baru dengan pertama membuat folder baru di lokal dan github dengan nama yang sama. Saya menghubungkan keduanya dengan perintah git add remote origin. Lalu, saya membuat virtual environment untuk projek baru ini dan mendownload django serta requirements lainnya. Lalu, saya membuat proyek django baru dengan perintah "django-admin startproject koleksi_kpop ." 
 Saya mengganti allowed hosts di settings.py agar dapat diakses oleh semua host dan menambahkan dokumen .gitignore dengan isi seperti di tutorial 0. 
 Kemudian saya membuat aplikasi main dengan perintah "python manage.py startapp main" dan menambahkan 'main' di installed apps pada settings.py agar aplikasi tersebut dapat dijalankan dalam proyek
 Untuk routing proyek perlu ditambahkan path baru dalam urlpatterns yang mengarah ke main dan ketika URL terkait diakses, akan mengacu ke urls.py yang ada di aplikasi main
 Lalu, checklist selanjutnya dilakukan dengan membuat function di models.py yang berisi atribut yang diinginkan. Diluar atribut wajib, saya menambahkan 2 atribut lagi, yaitu artist sebagai artist yang merilis produk tersebut dengan tipe CharField dan date_release sebagai tanggal rilis produk dengan tipe DateField
 Checklist selanjutnya adalah membuat fungsi di views.py. Saya membuat fungsi bernama show_main untuk menampilkan data pada tampilannya. Untuk itu, terdapat dictionary yang nanti value-nya dapat diakses dengan memanggil key-nya di main.html. Setelah itu function return function render dimana akan me-render tampilan HTML.
 Untuk routing perlu ditambahkan urls.py di dalam aplikasi main. Lalu, menambahkan url_pattern yang didalamnya ada function path dimana ketika berada di main akan memanggil fungsi show_main pada views.py.
-Terakhir saya melakukan deployment di adaptable dengan menghubungkannya pada repo yang ada di github. Saya memilih repo proyek yang baru saja di buat dan menggunakan branch main. Lalu, saya memilih python app template sebagai template deployment dan PostgreSQL sebagai tipe basis data. python version saya memasukkan versi 3.8 sesuai venv saya dan atart commmandnya "python manage.py migrate && gunicorn koleksi_kpop.wsgi". Terakhir saya memasukkan nama aplikasi, mencentang "HTTP Listener On Port", dan melakukan deployment.
+Terakhir saya melakukan deployment di adaptable dengan menghubungkannya pada repo yang ada di github. Saya memilih repo proyek yang baru saja di buat dan menggunakan branch main. Lalu, saya memilih python app template sebagai template deployment dan PostgreSQL sebagai tipe basis data. python version saya memasukkan versi 3.8 sesuai venv saya dan start commmandnya "python manage.py migrate && gunicorn koleksi_kpop.wsgi". Terakhir saya memasukkan nama aplikasi, mencentang "HTTP Listener On Port", dan melakukan deployment.
 
-### 2. Bagan berisi request client ke web aplikasi berbasis Django beserta responnya
+### 2. Bagan berisenya
 ![](/image/bagan%20http%20req.jpg)
 Pada saat pertama urls.py menerima HTTP request, urls.py akan mencari path yang sesuai dengan requestnya. Lalu, akan diarahkan ke views.py sesuai dengan URL yang korespondensi dan menjalankan fungsi yang dipanggil. Pada fungsi tersebut, kita dapat menulis, membaca, dan menghapus dari database. Kemudian, tampilan di render main.html dengan memanfaatkan data yang dibaca oleh views.py.
 
@@ -225,4 +225,38 @@ Checklist kedua saya lakukan dengan menjalankan server dan mengakses localhost. 
 Checklist keempat saya lakukan dengan menyimpan jam login dengan cookie pada function login menambahkan code `response.set_cookie('last_login', str(datetime.datetime.now()))` Saya menambahkan informasi ini dalam dictionary context function show_main yang di pass ke main.html agar bisa di render informasinya. Kemudian, saya juga merubah value dari nama dalam dictionary context function show_main agar mengirimkan username dari user yang sekarang sedang login.
 
 Terakhir, saya menjawab pertanyaan dengan membaca kembali tutorial, slides, dan mencari informasi di internet.
+</details>
+
+<details>
+<summary>Tugas 5</summary>
+
+### 1. Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya
+- Element Selector berguna untuk memilih semua element dengan tag yang sama. Selector ini dapat digunakan jika kita ingin memilih semua elemen dalam sebuah file HTML yang memiliki tag tersebut.
+
+- ID Selector digunakan untuk memilih element yang memiliki ID tersebut. ID biasanya bersifat unik, sehingga cocok ketika kita ingin mengubah sebuah element khusus.
+
+- Class Selector digunakan untuk memilih sekelompok element dengan class sama. Selector ini biasa digunakan untuk mengelompokkan elemen yang karakteristiknya mirip, sehingga styling dilakukan secara bersamaan.
+
+### 2. Jelaskan HTML5 Tag yang kamu ketahui
+- head = digunakan untuk menyatakan bagian header dari sebuah file HTML
+- body = digunakan untuk menyatakan bagian body dari sebuah file HTML
+- style = digunakan ketika kita ingin membuat internal style sheet CSS
+- h1, h2, h3, dst = digunakan untuk membuat header
+- a = untuk memuat hyperlink
+- button = untuk membuat button
+- form = untuk membuat form input bagi pengguna memasukkan data
+- input = digunakan untuk menerima input dari pengguna
+- img = untuk menampilkan gambar
+- div = untuk mengelompokkan element dalam HTML
+
+### 3. Jelaskan perbedaan antara margin dan padding.
+- Margin digunakan untuk mengatur jarak antara lement lain dengan border element bersangkutan. Transparan atau tidak memiliki warna.
+- Padding digunakan untuk mengatur jarak antara isi (content) dengan border dirinya sendiri. Warnanya mengikuti background dari element.
+
+### 4. Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+Bootstrap memiliki banyak komponen yang built-in dan siap kita pakai. Di sisi lain, Tailwind menyediakan komponen yang lebih dasar, sehingga perlu kustomisasi lebih lanjut. Tailwind lebih baik digunakan untuk membuat desain yang kompleks karena potensi kustomisasinya lebih besar. Bootstrap baik digunakan untuk membuat desain yang sudah ditentukan dan cepat, misalnya prototype.
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
+Saya membuat navbar dengan menggunakan template yang ada pada website Bootstrap. Kemudian, saya mengubahnya sesuai kebutuhan aplikasi saya. Selanjutnya, saya banyak mencari sumber-sumber dari internet dan memanfaatkan fitur inspect element untuk menemukan styling CSS yang saya butuhkan. Saya juga menggunakan beberapa built-in dari website Bootstrap, yaitu pada register dan create_product. 
+
 </details>

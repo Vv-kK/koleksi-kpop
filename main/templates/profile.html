@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Hi, {{nama}}!</h2>
+
+<h5>Sesi terakhir login: {{ last_login }}</h5>
+    <a href="{% url 'main:create_product' %}">
+        <button>
+            Add New Item
+        </button>
+    </a>
+
+{% endblock content %}

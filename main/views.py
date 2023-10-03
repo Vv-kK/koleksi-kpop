@@ -24,6 +24,18 @@ def show_main(request):
 
     return render(request, "main.html", context)
 
+@login_required(login_url='/login')
+def profile(request):
+    # items = Item.objects.filter(user=request.user)
+    # jumlah_item = len(items)
+    context = {
+        'nama': request.user.username,
+        'kelas': 'PBP D',
+        'last_login': request.COOKIES['last_login'],
+    }
+
+    return render(request, "profile.html", context)
+
 def create_product(request):
     form = ProductForm(request.POST or None)
 

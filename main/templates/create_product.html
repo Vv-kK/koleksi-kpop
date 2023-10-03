@@ -1,19 +1,59 @@
 {% extends 'base.html' %} 
 
+{% block meta %}
+<style>
+    .wrapper-product{
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        
+    }
+
+    label {
+        font-weight: 700;
+        width: 100px;
+    }
+
+    .btn-add {
+        background: #2c6ed5;
+        border-radius: 5px;
+        display: inline-block;
+        line-height: 50px;
+        padding: 0 30px;
+        outline: none;
+        border: none;
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+        margin-left: 150px;
+        
+    }
+
+    .title-new{
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 40px;
+        display: flex;
+    }
+
+</style>
+
+{% endblock meta %}
 {% block content %}
-<h1>Add New Product</h1>
+<h1 class="title-new">Add New Product</h1>
 
-<form method="POST">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" value="Add Item"/>
-            </td>
-        </tr>
-    </table>
-</form>
-
+<div class="wrapper-product">
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.label_tag }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        
+        <input class="btn-add" type="submit" value="Add Item"/>
+            
+    </form>
+</div>
 {% endblock %}
