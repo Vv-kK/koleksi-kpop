@@ -260,3 +260,41 @@ Bootstrap memiliki banyak komponen yang built-in dan siap kita pakai. Di sisi la
 Saya membuat navbar dengan menggunakan template yang ada pada website Bootstrap. Kemudian, saya mengubahnya sesuai kebutuhan aplikasi saya. Selanjutnya, saya banyak mencari sumber-sumber dari internet dan memanfaatkan fitur inspect element untuk menemukan styling CSS yang saya butuhkan. Saya juga menggunakan beberapa built-in dari website Bootstrap, yaitu pada register dan create_product. 
 
 </details>
+
+<details>
+<summary>Tugas 6</summary>
+
+### 1. Jelaskan perbedaan antara asynchronous programming dengan synchronous programming.
+Asynchronous programming berarti task selanjutnya dapat berjalan tanpa menunggu task sebelumnya selesai. Hal ini berarti akan ada beberapa task yang berjalan sekaligus membuat program lebih efisien dan responsif, tetapi di saat yang bersamaan flow program menjadi lebih rumit dengan adanya pemanfaatan callback dan promises.
+Di sisi lain, synchronous programming berarti untuk menjalankan sebuah task harus menunggu task sebelumnya selesai. Hal ini berarti hanya 1 task yang dijalankan dalam satu waktu dan flow program menjadi linier. Hal ini membuat program lebih mudah dipahami/intuitif.
+
+### 2. Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma event-driven programming. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini.
+Event-driven programming berarti program akan menjalankan suatu task/function ketika ada suatu event yang terjadi, bukan berdasarkan urutan ditulisnya kode. Event ini dapat berupa mouse hover, mouse click, dll. Contohnya pada tugas ini adalah `document.getElementById("button_add").onclick = addProduct`
+
+### 3. Jelaskan penerapan asynchronous programming pada AJAX.
+AJAX memanfaatkan asynchronous programming pada data transfer. Pada AJAX, suatu function ditambahkan keyword async untuk menandakan function itu berjalan secara asynchronous. Kemudian, kita dapat menggunakan syntax fetch() untuk membuat asynchronous HTTP GET Request dan await untuk membiarkan task lain tetap berjalan sambil menunggu server memproses request dan memberi respon. Barulah hasil respon itu akan dikelola lagi oleh JavaScript jika diperlukan.
+
+### 4. Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada library jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan.
+Fetch API:
+- tidak menggunakan library eksternal
+- membuat request dengan promise, sehingga mudah untuk membuat asynchronous program
+- menyediakan basic instruction untuk melakukan POST, GET, PUT, DELETE, dll
+- butuh lebih banyak coding manual untuk instruksi yang lebih rumit
+
+jQuery:
+- perlu mengunduh library eksternal
+- kompatibel untuk cross-browser karena bisa menyesuaikan dengan perbedaan yang ada di setiap browser 
+- Menyediakan instruksi yang lebih lengkap, sehingga kode yang perlu dibuat menjadi lebih simpel
+
+Menurut saya, dalam konteks PBP ini lebih cocok menggunakan Fetch API karena sebagai pemula lebih baik kita menggunakan yang basic dulu. Namun, jQuery akan lebih cocok jika proyek yang ingin dibuat lebih rumit.
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+Pertama, untuk mengimplementasi AJAX GET, maka saya membuat fungsi getProducts terlebih dahulu untuk fetch di main.html yang memanggil suatu fungsi di views.py. Lalu di views.py yang mengambil item untuk user itu dan mengembalikannya dalam format JSON. Selanjutnya saya membuat fungsi untuk me-refresh tampilan card, dimana fungsi akan memanggil fungsi getProducts tadi dan memindahkan code pembuatan HTML card nya di dalam fungsi refresh ini dengan membuat suatu card untuk tiap itemnya. Tidak lupa saya membuat routing untuk fungsi baru di views.py tadi.
+
+Kedua, untuk AJAX POST saya membuat modal dengan menggunakan template dari bootstrap. Saya membuat button untuk membuka modal tersebut. Lalu, saya membuat fungsi create_ajax di views.py yang berfungsi untuk menambahkan item. Fungsi tersebut akan mengambil data yang diisi dalam modal, membuat object Item baru dengan data yang didapatkan, dan menyimpannya di basis data. Kemudian, saya membuat routing untuk fungsi tersebut. 
+Untuk menghubungkan form yang ke fungsi create_ajax, saya membuat sebuah fungsi menggunakan javascript. Fungsi ini adalah addProduct dan akan melakukan fetch terhadap create_ajax dengan mengirimkan HTTP request dengan method POST dan body berupa data-data yang di-input pada modal. Kemudian, saya memanggil fungsi refresh yang telah dibuat sebelumnya untuk memenuhi checklist berikutnya dan mengosongkan input filed pada modal.
+
+Ketiga, saya menambahkan `STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')` pada settings.py dan menjalankan command `python manage.py collectstatic` di terminal.
+
+Terakhir, saya menjawab pertanyaan dengan membaca slides kuliah, tutorial, dan searching di internet.
+</details>

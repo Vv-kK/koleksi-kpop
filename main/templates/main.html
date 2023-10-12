@@ -73,26 +73,90 @@
     </div>
 </nav>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Product</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="form" onsubmit="return false;">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name"></input>
+                  </div>
+                  <div class="mb-3">
+                    <label for="artist" class="col-form-label">Artist:</label>
+                    <input type="text" class="form-control" id="artist" name="artist"></input>
+                  </div>
+                  <div class="mb-3">
+                    <label for="amount" class="col-form-label">Amount:</label>
+                    <input type="number" class="form-control" id="amount" name="amount"></input>
+                  </div>
+                  <div class="mb-3">
+                      <label for="description" class="col-form-label">Description:</label>
+                      <textarea class="form-control" id="description" name="description"></textarea>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Product</button>
+          </div>
+      </div>
+  </div>
+</div>
+
     <a href="{% url 'main:create_product' %}">
         <button class="btn-add">
             Add New Item
         </button>
     </a>
 
-    <p class="total-text">Kamu menyimpan <b>{{jumlah_item}}</b> item pada aplikasi ini</p>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
 
-    {% for item in items %}
-        <div class="card" style="width: 18rem;">
+    <div id="wrapper_card"> </div>
+
+<script>
+  async function getProducts() {
+      return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+  }
+
+  async function refreshProducts() {
+        document.getElementById("wrapper_card").innerHTML = ""
+        const products = await getProducts()
+        let htmlString = ""
+        products.forEach((item) => {
+            htmlString += `<div class="card" style="width: 18rem;">
             <div class="card-body">
-            <h5 class="card-title">{{item.name}}</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary">by {{item.artist}}</h6>
-            <p class="card-text">available in {{item.amount}} versions</p>
-            <p class="card-text">{{item.description}}</p>
-            <a href="increase/{{item.pk}}/"><button class="btn-bonus">+</button></a>
-            <a href="decrease/{{item.pk}}/"><button class="btn-bonus">-</button></a>
-            <a href="remove_all/{{item.pk}}/"><button class="btn-bonus">🗑️</button></a>
+              <h5 class="card-title">${item.fields.name}</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">by ${item.fields.artist}</h6>
+              <p class="card-text">available in ${item.fields.amount} versions</p>
+              <p class="card-text">${item.fields.description}</p>
+              <a href="increase/{{item.pk}}/"><button class="btn-bonus">+</button></a>
+              <a href="decrease/{{item.pk}}/"><button class="btn-bonus">-</button></a>
+              <a href="remove_all/{{item.pk}}/"><button class="btn-bonus">🗑️</button></a>
             </div>
-        </div>
-    {% endfor %}
+            </div>` 
+        })
+        
+        document.getElementById("wrapper_card").innerHTML = htmlString
+    }
 
+    refreshProducts()
+
+    function addProduct() {
+        fetch("{% url 'main:create_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#form'))
+        }).then(refreshProducts)
+
+        document.getElementById("form").reset()
+        return false
+    }
+
+    document.getElementById("button_add").onclick = addProduct
+</script>
 {% endblock content %}
