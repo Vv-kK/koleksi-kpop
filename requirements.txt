@@ -4,3 +4,4 @@ whitenoise
 psycopg2-binary==2.8.6
 requests
 urllib3
+django-environ

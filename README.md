@@ -294,7 +294,7 @@ Pertama, untuk mengimplementasi AJAX GET, maka saya membuat fungsi getProducts t
 Kedua, untuk AJAX POST saya membuat modal dengan menggunakan template dari bootstrap. Saya membuat button untuk membuka modal tersebut. Lalu, saya membuat fungsi create_ajax di views.py yang berfungsi untuk menambahkan item. Fungsi tersebut akan mengambil data yang diisi dalam modal, membuat object Item baru dengan data yang didapatkan, dan menyimpannya di basis data. Kemudian, saya membuat routing untuk fungsi tersebut. 
 Untuk menghubungkan form yang ke fungsi create_ajax, saya membuat sebuah fungsi menggunakan javascript. Fungsi ini adalah addProduct dan akan melakukan fetch terhadap create_ajax dengan mengirimkan HTTP request dengan method POST dan body berupa data-data yang di-input pada modal. Kemudian, saya memanggil fungsi refresh yang telah dibuat sebelumnya untuk memenuhi checklist berikutnya dan mengosongkan input filed pada modal.
 
-Ketiga, saya menambahkan `STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')` pada settings.py dan menjalankan command `python manage.py collectstatic` di terminal.
+Ketiga, saya menambahkan `STATIC_ROOT = os.path.join(BASE_DIR, 'static')` pada settings.py dan menjalankan command `python manage.py collectstatic` di terminal.
 
 Terakhir, saya menjawab pertanyaan dengan membaca slides kuliah, tutorial, dan searching di internet.
 </details>
