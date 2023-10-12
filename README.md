@@ -1,4 +1,4 @@
-# [Melody Mementos](https://melody-mementos.adaptable.app/)
+# [Melody Mementos](http://veronica-kylie-tugas.pbp.cs.ui.ac.id)
 
 <details>
 <summary> Tugas 2 </summary>
