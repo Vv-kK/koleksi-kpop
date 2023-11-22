@@ -1,6 +1,7 @@
 import datetime
+import json
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound, JsonResponse
 from main.forms import ProductForm, Item
 from django.urls import reverse
 from django.core import serializers
@@ -136,3 +137,23 @@ def remove_all(request, id):
     item = Item.objects.get(pk=id)
     item.delete()
     return redirect('main:show_main')
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+
+        new_product = Item.objects.create(
+            user = request.user,
+            name = data["name"],
+            artist = data["artist"],
+            amount = int(data["amount"]),
+            description = data["description"]
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
